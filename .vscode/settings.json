@@ -1,0 +1,14 @@
+{
+  "editor.fontLigatures": true,
+  "editor.minimap.enabled": false,
+  "explorer.compactFolders": false,
+  "editor.renderLineHighlight": "gutter",
+  "editor.fontFamily": "JetBrains",
+  "editor.semanticHighlighting.enabled": true,
+  "editor.fontSize": 16,
+  "workbench.iconTheme": "vscode-icons",
+  "python.analysis.autoImportCompletions": true,
+  "window.zoomLevel": -0.1
+
+
+}
