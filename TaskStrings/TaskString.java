@@ -7,11 +7,9 @@ public class TaskString {
 
         String gasolina = "TaSemGasolina";
         int stringLength = gasolina.length();
-        System.out.println(stringLength);
-        String nomeMinusculo = gasolina.toLowerCase();
-        System.out.println(nomeMinusculo);
+        System.out.println("Quantidade de Caracteres: "+stringLength);
         String nomeMaiusculo = gasolina.toUpperCase();
-        System.out.println(nomeMaiusculo);
+        System.out.println("Nome em Maiusculo: "+nomeMaiusculo);
 
         int vogais = 0;
         String listaVogais = "aeiouAEIOU";
@@ -21,8 +19,10 @@ public class TaskString {
                 vogais++;
             }
         }
-             
-        System.out.println(vogais);
+        gasolina = gasolina.toLowerCase();  
+        System.out.println("Quantidade de Vogais: "+vogais);
+        System.out.println("O Nome começa com UNI: " + gasolina.startsWith("uni"));
+        System.out.println("O Nome termina com Rio: " + gasolina.endsWith("rio"));
 
 
     }
