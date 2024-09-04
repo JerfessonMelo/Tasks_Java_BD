@@ -19,12 +19,12 @@ public class ArraaysList {
         nomesArray.remove(2);
         boolean Talles = false;
         for(int i = 0; i < nomesArray.size(); i++){
-            System.out.println("Imprimindo os Valores do Array: " + i);
-            if (nomesArray.get(0).equals("Talles")) {
-                System.out.println("Talles esta na Primeira Posição" + i);
-                Talles = true;                
+            System.out.println("Imprimindo os Valores do Array: " + i);               
             }
-        }
+                if (nomesArray.get(0).equals("Talles")) {
+                System.out.println("Talles esta na Primeira Posição");
+                Talles = true;
+                }
                 if(!Talles){
                 System.out.println("Talles Não esta na Primeira Posição");
                 }
