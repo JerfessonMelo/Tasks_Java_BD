@@ -12,9 +12,10 @@ public class ArraaysList {
         nomesArray.add("Hermione Granger");
         nomesArray.add("Severo Snape");
         nomesArray.add("Albus Dumbledore");
-        System.out.println("Array List Com 5 Nomes: " + nomesArray);
         nomesArray.remove(1);
-        System.out.println("Removendo Segundo Nome: " + nomesArray);
+        for(int i = 0; i < nomesArray.size(); i++ ){
+        System.out.println(i + " => " + nomesArray.get(i));
+        }
         nomesArray.remove(2);
         boolean Talles = false;
         for(int i = 0; i < nomesArray.size(); i++){
