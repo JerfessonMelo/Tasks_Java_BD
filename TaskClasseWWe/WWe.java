@@ -52,8 +52,8 @@ public class WWe {
 		resistencia++;
 	}
 
-    void deSorteAoAzar(){
-        azar--;
+    void Sorteliquida(){
+        vidaExtra--;
     }
 
     void Vidaextras(){
