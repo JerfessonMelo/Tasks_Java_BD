@@ -145,4 +145,3 @@ CREATE TABLE pedidoProdutoAcompanhamento (
     FOREIGN KEY (id_pedido_produto) REFERENCES pedidoProduto(id),
     FOREIGN KEY (id_acompanhamento) REFERENCES acompanhamento(id)
 );
--- drop database ifood;
