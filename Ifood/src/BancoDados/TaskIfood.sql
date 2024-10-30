@@ -70,7 +70,7 @@ CREATE TABLE produtoAcompanhamento (
 
 CREATE TABLE formaPagamento (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    forma VARCHAR(60)
+    forma enum ('Pix', 'Cartao', 'Dinheiro')
 );
 
 CREATE TABLE restaurantePagamento (

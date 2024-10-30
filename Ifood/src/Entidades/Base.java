@@ -2,9 +2,9 @@ import java.time.LocalDate;
 public abstract class Base {
 
 
-    private int id;
-    private String status;
-    private LocalDate dataCreat;
+    protected int id;
+    protected String status;
+    protected LocalDate dataCreat;
 
     public Base(int id, String status, LocalDate dataCreat) {
         this.id = id;

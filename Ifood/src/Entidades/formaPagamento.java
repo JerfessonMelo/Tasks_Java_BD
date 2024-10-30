@@ -2,18 +2,23 @@ import java.time.LocalDate;
 
 public class formaPagamento extends Base{
 
-    private String forma;
+    private FormaPag formaPag;
 
-    public formaPagamento(int id, String status, LocalDate dataCreat, String forma) {
+    private enum FormaPag{
+        Pix, Cartao, Dinheiro
+    }
+
+    public formaPagamento(int id, String status, LocalDate dataCreat, formaPagamento.FormaPag formaPag) {
         super(id, status, dataCreat);
-        this.forma = forma;
+        this.formaPag = formaPag;
     }
 
-    public String getForma() {
-        return forma;
+    public FormaPag getFormaPag() {
+        return formaPag;
     }
 
-    public void setForma(String forma) {
-        this.forma = forma;
+    public void setFormaPag(FormaPag formaPag) {
+        this.formaPag = formaPag;
     }
+
 }
