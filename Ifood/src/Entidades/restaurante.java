@@ -1,17 +1,28 @@
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Timer;
 
-public class restaurante extends Base{
+public class Restaurante extends Base{
 
     private String nome;
     private String telefone;
     private float valorMinimoEntrega;
-    
-    public restaurante(int id, String status, LocalDate dataCreat, String nome, String telefone,
-            float valorMinimoEntrega) {
+    private Boolean isRetirada;
+    private Timer HoraFuncionamento;
+    private Endereco endereco;
+    private Categoria categoria;
+    private ArrayList<Produtos> produtos = new ArrayList<>();
+
+    public Restaurante(int id, int status, LocalDateTime dataCreat, String nome, String telefone, float valorMinimoEntrega,
+            Boolean isRetirada, Timer horaFuncionamento, Endereco endereco, Categoria categoria) {
         super(id, status, dataCreat);
         this.nome = nome;
         this.telefone = telefone;
         this.valorMinimoEntrega = valorMinimoEntrega;
+        this.isRetirada = isRetirada;
+        HoraFuncionamento = horaFuncionamento;
+        this.endereco = endereco;
+        this.categoria = categoria;
     }
     public String getNome() {
         return nome;
@@ -31,5 +42,35 @@ public class restaurante extends Base{
     public void setValorMinimoEntrega(float valorMinimoEntrega) {
         this.valorMinimoEntrega = valorMinimoEntrega;
     }
-
+    public Boolean getIsRetirada() {
+        return isRetirada;
+    }
+    public void setIsRetirada(Boolean isRetirada) {
+        this.isRetirada = isRetirada;
+    }
+    public Timer getHoraFuncionamento() {
+        return HoraFuncionamento;
+    }
+    public void setHoraFuncionamento(Timer horaFuncionamento) {
+        HoraFuncionamento = horaFuncionamento;
+    }
+    public Endereco getEndereco() {
+        return endereco;
+    }
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+    public Categoria getCategoria() {
+        return categoria;
+    }
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+    public ArrayList<Produtos> getProdutos() {
+        return produtos;
+    }
+    public void setProdutos(ArrayList<Produtos> produtos) {
+        this.produtos = produtos;
+    }
+    
 }

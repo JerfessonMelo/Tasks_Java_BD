@@ -1,14 +1,19 @@
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class pedido extends Base {
+public class Pedido extends Base {
 
-    private LocalDate dataPedido;
+    private LocalDateTime dataPedido;
     private float valor;
     private float taxaEntrega;
     private String observacoes;
     private Float troco;
+    private Restaurante restaurante;
+    private Promocao promocao;
+    private FormaPagamento formaPagamento;
+    private StatusEntrega statusEntrega;
+    private Endereco endereco;
     
-    public pedido(int id, String status, LocalDate dataCreat, LocalDate dataPedido, float valor, float taxaEntrega,
+    public Pedido(int id, int status, LocalDateTime dataCreat, LocalDateTime dataPedido, float valor, float taxaEntrega,
             String observacoes, Float troco) {
         super(id, status, dataCreat);
         this.dataPedido = dataPedido;
@@ -17,10 +22,10 @@ public class pedido extends Base {
         this.observacoes = observacoes;
         this.troco = troco;
     }
-    public LocalDate getDataPedido() {
+    public LocalDateTime getDataPedido() {
         return dataPedido;
     }
-    public void setDataPedido(LocalDate dataPedido) {
+    public void setDataPedido(LocalDateTime dataPedido) {
         this.dataPedido = dataPedido;
     }
     public float getValor() {
@@ -47,4 +52,36 @@ public class pedido extends Base {
     public void setTroco(Float troco) {
         this.troco = troco;
     }
+    public Restaurante getRestaurante() {
+        return restaurante;
+    }
+    public void setRestaurante(Restaurante restaurante) {
+        this.restaurante = restaurante;
+    }
+    public Promocao getPromocao() {
+        return promocao;
+    }
+    public void setPromocao(Promocao promocao) {
+        this.promocao = promocao;
+    }
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+    public StatusEntrega getStatusEntrega() {
+        return statusEntrega;
+    }
+    public void setStatusEntrega(StatusEntrega statusEntrega) {
+        this.statusEntrega = statusEntrega;
+    }
+    public Endereco getEndereco() {
+        return endereco;
+    }
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+    
+    
 }

@@ -1,10 +1,10 @@
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class statusEntrega extends Base{
+public class StatusEntrega extends Base{
 
     private String nome;
 
-    public statusEntrega(int id, String status, LocalDate dataCreat, String nome) {
+    public StatusEntrega(int id, int status, LocalDateTime dataCreat, String nome) {
         super(id, status, dataCreat);
         this.nome = nome;
     }

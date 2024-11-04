@@ -1,23 +1,19 @@
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class formaPagamento extends Base{
+public class FormaPagamento extends Base{
 
-    private FormaPag formaPag;
+    private String formaPag;
 
-    private enum FormaPag{
-        Pix, Cartao, Dinheiro
-    }
-
-    public formaPagamento(int id, String status, LocalDate dataCreat, formaPagamento.FormaPag formaPag) {
+    public FormaPagamento(int id, int status, LocalDateTime dataCreat, String formaPag) {
         super(id, status, dataCreat);
         this.formaPag = formaPag;
     }
 
-    public FormaPag getFormaPag() {
+    public String getFormaPag() {
         return formaPag;
     }
 
-    public void setFormaPag(FormaPag formaPag) {
+    public void setFormaPag(String formaPag) {
         this.formaPag = formaPag;
     }
 

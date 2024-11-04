@@ -1,20 +1,39 @@
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class historicoEntregas extends Base{
+public class HistoricoEntregas extends Base{
 
-    private LocalDate dataHora;
+    private LocalDateTime dataHora;
+    private StatusEntrega statusEntrega;
+    private Pedido pedido;
 
-    public historicoEntregas(int id, String status, LocalDate dataCreat, LocalDate dataHora) {
+    public HistoricoEntregas(int id, int status, LocalDateTime dataCreat, LocalDateTime dataHora) {
         super(id, status, dataCreat);
         this.dataHora = dataHora;
     }
 
-    public LocalDate getDataHora() {
+    public LocalDateTime getDataHora() {
         return dataHora;
     }
 
-    public void setDataHora(LocalDate dataHora) {
+    public void setDataHora(LocalDateTime dataHora) {
         this.dataHora = dataHora;
     }
 
+    public StatusEntrega getStatusEntrega() {
+        return statusEntrega;
+    }
+
+    public void setStatusEntrega(StatusEntrega statusEntrega) {
+        this.statusEntrega = statusEntrega;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
+    
 }

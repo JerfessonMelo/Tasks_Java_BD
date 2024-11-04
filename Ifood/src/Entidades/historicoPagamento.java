@@ -1,11 +1,12 @@
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class historicoPagamento extends Base{
+public class HistoricoPagamento extends Base{
 
     private float valor;
-    private LocalDate dataPagamento;
-    
-    public historicoPagamento(int id, String status, LocalDate dataCreat, float valor, LocalDate dataPagamento) {
+    private LocalDateTime dataPagamento;
+    private FormaPagamento formaPagamento;
+
+    public HistoricoPagamento(int id, int status, LocalDateTime dataCreat, float valor, LocalDateTime dataPagamento) {
         super(id, status, dataCreat);
         this.valor = valor;
         this.dataPagamento = dataPagamento;
@@ -16,11 +17,17 @@ public class historicoPagamento extends Base{
     public void setValor(float valor) {
         this.valor = valor;
     }
-    public LocalDate getDataPagamento() {
+    public LocalDateTime getDataPagamento() {
         return dataPagamento;
     }
-    public void setDataPagamento(LocalDate dataPagamento) {
+    public void setDataPagamento(LocalDateTime dataPagamento) {
         this.dataPagamento = dataPagamento;
     }
-
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+   
 }

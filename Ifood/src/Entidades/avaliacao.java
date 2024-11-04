@@ -1,10 +1,11 @@
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class avaliacao extends Base {
+public class Avaliacao extends Base {
 
     private int nota;
+    private Pedido pedido;
 
-    public avaliacao(int id, String status, LocalDate dataCreat, int nota) {
+    public Avaliacao(int id, int status, LocalDateTime dataCreat, int nota) {
         super(id, status, dataCreat);
         this.nota = nota;
     }
@@ -16,5 +17,14 @@ public class avaliacao extends Base {
     public void setNota(int nota) {
         this.nota = nota;
     }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
 
 }

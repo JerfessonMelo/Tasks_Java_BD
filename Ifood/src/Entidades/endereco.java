@@ -1,6 +1,7 @@
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
-public class endereco extends Base {
+public class Endereco extends Base {
 
     private String rua;
     private String bairro;
@@ -10,14 +11,11 @@ public class endereco extends Base {
     private String pontoReferencia;
     private String complemento;
     private String cep;
-    private TipoEndereco tipoEndereco;
+    private String tipoEndereco;
+    private ArrayList<Restaurante> restaurante = new ArrayList<>();
 
-    private enum TipoEndereco{
-        casa, apartamento, comcerial
-    }
-
-    public endereco(int id, String status, LocalDate dataCreat, String rua, String bairro, String numero, String cidade,
-            String estado, String pontoReferencia, String complemento, String cep, endereco.TipoEndereco tipoEndereco) {
+    public Endereco(int id, int status, LocalDateTime dataCreat, String rua, String bairro, String numero, String cidade,
+            String estado, String pontoReferencia, String complemento, String cep) {
         super(id, status, dataCreat);
         this.rua = rua;
         this.bairro = bairro;
@@ -27,7 +25,6 @@ public class endereco extends Base {
         this.pontoReferencia = pontoReferencia;
         this.complemento = complemento;
         this.cep = cep;
-        this.tipoEndereco = tipoEndereco;
     }
 
     public String getRua() {
@@ -94,12 +91,20 @@ public class endereco extends Base {
         this.cep = cep;
     }
 
-    public TipoEndereco getTipoEndereco() {
+    public String getTipoEndereco() {
         return tipoEndereco;
     }
 
-    public void setTipoEndereco(TipoEndereco tipoEndereco) {
+    public void setTipoEndereco(String tipoEndereco) {
         this.tipoEndereco = tipoEndereco;
+    }
+
+    public ArrayList<Restaurante> getRestaurante() {
+        return restaurante;
+    }
+
+    public void setRestaurante(ArrayList<Restaurante> restaurante) {
+        this.restaurante = restaurante;
     }
 
 }

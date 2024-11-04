@@ -1,17 +1,12 @@
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class categoria extends Base {
+public class Categoria extends Base {
 
     private String nome;
     private String descricao;
-    private TipoCategoria tipoCategoria;
-
-    private enum TipoCategoria{
-        restaurante, produto
-    }
-
-    public categoria(int id, String status, LocalDate dataCreat, String nome, String descricao,
-            TipoCategoria tipoCategoria) {
+    private String tipoCategoria;
+    
+    public Categoria(int id, int status, LocalDateTime dataCreat, String nome, String descricao, String tipoCategoria) {
         super(id, status, dataCreat);
         this.nome = nome;
         this.descricao = descricao;
@@ -34,12 +29,12 @@ public class categoria extends Base {
         this.descricao = descricao;
     }
 
-    public TipoCategoria getTipoCategoria() {
+    public String getTipoCategoria() {
         return tipoCategoria;
     }
 
-    public void setTipoCategoria(TipoCategoria tipoCategoria) {
+    public void setTipoCategoria(String tipoCategoria) {
         this.tipoCategoria = tipoCategoria;
     }
-      
+    
 }
