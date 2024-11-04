@@ -1,10 +1,12 @@
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class HistoricoPagamento extends Base{
 
     private float valor;
     private LocalDateTime dataPagamento;
-    private FormaPagamento formaPagamento;
+    private ArrayList<FormaPagamento> formaPagamentos = new ArrayList<>();
+
 
     public HistoricoPagamento(int id, int status, LocalDateTime dataCreat, float valor, LocalDateTime dataPagamento) {
         super(id, status, dataCreat);
@@ -23,11 +25,11 @@ public class HistoricoPagamento extends Base{
     public void setDataPagamento(LocalDateTime dataPagamento) {
         this.dataPagamento = dataPagamento;
     }
-    public FormaPagamento getFormaPagamento() {
-        return formaPagamento;
+    public ArrayList<FormaPagamento> getFormaPagamentos() {
+        return formaPagamentos;
     }
-    public void setFormaPagamento(FormaPagamento formaPagamento) {
-        this.formaPagamento = formaPagamento;
+    public void setFormaPagamentos(ArrayList<FormaPagamento> formaPagamentos) {
+        this.formaPagamentos = formaPagamentos;
     }
    
 }

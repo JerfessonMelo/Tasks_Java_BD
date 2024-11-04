@@ -1,5 +1,4 @@
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 public class Endereco extends Base {
 
@@ -12,7 +11,7 @@ public class Endereco extends Base {
     private String complemento;
     private String cep;
     private String tipoEndereco;
-    private ArrayList<Restaurante> restaurante = new ArrayList<>();
+    private Restaurante restaurante;
 
     public Endereco(int id, int status, LocalDateTime dataCreat, String rua, String bairro, String numero, String cidade,
             String estado, String pontoReferencia, String complemento, String cep) {
@@ -99,11 +98,11 @@ public class Endereco extends Base {
         this.tipoEndereco = tipoEndereco;
     }
 
-    public ArrayList<Restaurante> getRestaurante() {
+    public Restaurante getRestaurante() {
         return restaurante;
     }
 
-    public void setRestaurante(ArrayList<Restaurante> restaurante) {
+    public void setRestaurante(Restaurante restaurante) {
         this.restaurante = restaurante;
     }
 

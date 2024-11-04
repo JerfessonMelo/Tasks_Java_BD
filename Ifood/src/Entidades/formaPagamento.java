@@ -3,6 +3,7 @@ import java.time.LocalDateTime;
 public class FormaPagamento extends Base{
 
     private String formaPag;
+    private HistoricoPagamento historicoPagamento;
 
     public FormaPagamento(int id, int status, LocalDateTime dataCreat, String formaPag) {
         super(id, status, dataCreat);
@@ -17,4 +18,13 @@ public class FormaPagamento extends Base{
         this.formaPag = formaPag;
     }
 
+    public HistoricoPagamento getHistoricoPagamento() {
+        return historicoPagamento;
+    }
+
+    public void setHistoricoPagamento(HistoricoPagamento historicoPagamento) {
+        this.historicoPagamento = historicoPagamento;
+    }
+
+    
 }

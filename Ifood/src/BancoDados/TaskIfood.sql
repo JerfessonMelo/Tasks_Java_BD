@@ -11,14 +11,14 @@ CREATE TABLE endereco (
     pontoReferencia VARCHAR(60),
     complemento VARCHAR(60),
     cep VARCHAR(11),
-    tipo_endereco ENUM('casa', 'apartamento', 'comercial')
+    tipo_endereco VARCHAR(30)
 );
 
 CREATE TABLE categoria (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(60) NOT NULL,
     descricao TEXT,
-    tipo_categoria ENUM('restaurante', 'produto')
+    tipo_categoria VARCHAR(30)
 );
 
 CREATE TABLE restaurante (
@@ -70,7 +70,7 @@ CREATE TABLE produtoAcompanhamento (
 
 CREATE TABLE formaPagamento (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    forma enum ('Pix', 'Cartao', 'Dinheiro')
+    forma VARCHAR(30)
 );
 
 CREATE TABLE restaurantePagamento (

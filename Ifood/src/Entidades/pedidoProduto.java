@@ -1,10 +1,11 @@
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class PedidoProduto extends Base {
 
     private int quantidade;
     private Pedido pedido;
-    private Produtos produtos;
+    private ArrayList<Produtos> produtos = new ArrayList<>();
 
     public PedidoProduto(int id, int status, LocalDateTime dataCreat, int quantidade) {
         super(id, status, dataCreat);
@@ -27,11 +28,11 @@ public class PedidoProduto extends Base {
         this.pedido = pedido;
     }
 
-    public Produtos getProdutos() {
+    public ArrayList<Produtos> getProdutos() {
         return produtos;
     }
 
-    public void setProdutos(Produtos produtos) {
+    public void setProdutos(ArrayList<Produtos> produtos) {
         this.produtos = produtos;
     }
 

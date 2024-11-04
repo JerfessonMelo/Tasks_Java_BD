@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Ifood/Ifood.iml" filepath="$PROJECT_DIR$/Ifood/Ifood.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TaskJava/TaskJava.iml" filepath="$PROJECT_DIR$/TaskJava/TaskJava.iml" />
+      <module fileurl="file://$PROJECT_DIR$/VsCodeJava.iml" filepath="$PROJECT_DIR$/VsCodeJava.iml" />
+    </modules>
+  </component>
+</project>
