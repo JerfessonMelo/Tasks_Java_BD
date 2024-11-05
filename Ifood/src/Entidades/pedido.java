@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Pedido extends Base {
 
@@ -12,6 +13,9 @@ public class Pedido extends Base {
     private FormaPagamento formaPagamento;
     private StatusEntrega statusEntrega;
     private Endereco endereco;
+    private ArrayList<PedidoProduto> pedidoProduto;
+    private ArrayList<HistoricoEntregas> historicoEntregas;
+    private ArrayList<HistoricoPagamento> historicoPagamentos;
     
     public Pedido(int id, int status, LocalDateTime dataCreat, LocalDateTime dataPedido, float valor, float taxaEntrega,
             String observacoes, Float troco) {
@@ -82,6 +86,23 @@ public class Pedido extends Base {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
-    
-    
+    public ArrayList<HistoricoEntregas> getHistoricoEntregas() {
+        return historicoEntregas;
+    }
+    public void setHistoricoEntregas(ArrayList<HistoricoEntregas> historicoEntregas) {
+        this.historicoEntregas = historicoEntregas;
+    }
+    public ArrayList<HistoricoPagamento> getHistoricoPagamentos() {
+        return historicoPagamentos;
+    }
+    public void setHistoricoPagamentos(ArrayList<HistoricoPagamento> historicoPagamentos) {
+        this.historicoPagamentos = historicoPagamentos;
+    }
+    public ArrayList<PedidoProduto> getPedidoProduto() {
+        return pedidoProduto;
+    }
+    public void setPedidoProduto(ArrayList<PedidoProduto> pedidoProduto) {
+        this.pedidoProduto = pedidoProduto;
+    }
+       
 }

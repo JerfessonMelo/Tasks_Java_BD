@@ -5,7 +5,8 @@ public class HistoricoPagamento extends Base{
 
     private float valor;
     private LocalDateTime dataPagamento;
-    private ArrayList<FormaPagamento> formaPagamentos = new ArrayList<>();
+    private Pedido pedido;
+    private ArrayList<FormaPagamento> formaPagamentos;
 
 
     public HistoricoPagamento(int id, int status, LocalDateTime dataCreat, float valor, LocalDateTime dataPagamento) {
@@ -30,6 +31,12 @@ public class HistoricoPagamento extends Base{
     }
     public void setFormaPagamentos(ArrayList<FormaPagamento> formaPagamentos) {
         this.formaPagamentos = formaPagamentos;
+    }
+    public Pedido getPedido() {
+        return pedido;
+    }
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
     }
    
 }

@@ -4,6 +4,7 @@ public class FormaPagamento extends Base{
 
     private String formaPag;
     private HistoricoPagamento historicoPagamento;
+    private Pedido pedido;
 
     public FormaPagamento(int id, int status, LocalDateTime dataCreat, String formaPag) {
         super(id, status, dataCreat);
@@ -26,5 +27,12 @@ public class FormaPagamento extends Base{
         this.historicoPagamento = historicoPagamento;
     }
 
-    
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+      
 }

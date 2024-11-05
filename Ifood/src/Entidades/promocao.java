@@ -7,6 +7,7 @@ public class Promocao extends Base {
     private float valor;
     private LocalDateTime validade;
     private String tipo;
+    private Pedido pedido;
     
     public Promocao(int id, int status, LocalDateTime dataCreat, String nome, String codigo, float valor,
             LocalDateTime validade, String tipo) {
@@ -56,6 +57,14 @@ public class Promocao extends Base {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
     }
     
 }

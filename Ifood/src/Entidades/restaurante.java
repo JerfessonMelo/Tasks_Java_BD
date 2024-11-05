@@ -11,7 +11,7 @@ public class Restaurante extends Base{
     private Timer HoraFuncionamento;
     private Endereco endereco;
     private Categoria categoria;
-    private ArrayList<Produtos> produtos = new ArrayList<>();
+    private ArrayList<Produto> produto;
 
     public Restaurante(int id, int status, LocalDateTime dataCreat, String nome, String telefone, float valorMinimoEntrega,
             Boolean isRetirada, Timer horaFuncionamento, Endereco endereco, Categoria categoria) {
@@ -66,11 +66,11 @@ public class Restaurante extends Base{
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
-    public ArrayList<Produtos> getProdutos() {
-        return produtos;
+    public ArrayList<Produto> getProdutos() {
+        return produto;
     }
-    public void setProdutos(ArrayList<Produtos> produtos) {
-        this.produtos = produtos;
+    public void setProdutos(ArrayList<Produto> produto) {
+        this.produto = produto;
     }
     
 }
