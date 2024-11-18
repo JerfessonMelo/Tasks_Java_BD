@@ -12,6 +12,7 @@ public class FrontEnd {
     private JFrame frame;
     private String formaPagamento;
 
+    @SuppressWarnings("unused")
     public FrontEnd() {
         frame = new JFrame("Ifood");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -121,6 +122,7 @@ public class FrontEnd {
         pedidoModel.addElement(pedidoText);
     }
 
+    @SuppressWarnings("unused")
     private void handleRegistroEndereco() {
         JDialog enderecoDialog = new JDialog(frame, "Registrar Endereço", true);
         enderecoDialog.setSize(400, 400);
@@ -201,7 +203,7 @@ public class FrontEnd {
     private void startTemporizador() {
         new Thread(() -> {
             try {
-                for (int i = 1; i <= 36; i++) {
+                for (int i = 1; i <= 30; i++) {
                     final int seconds = i;
                     SwingUtilities.invokeLater(() -> tempo.setText(String.valueOf(seconds)));
                     Thread.sleep(1000);
@@ -211,6 +213,7 @@ public class FrontEnd {
             }
         }).start();
     }
+@SuppressWarnings("unused")
 private void mostrarTelaPedido() {
     JDialog statusDialog = new JDialog(frame, "Detalhes do Pedido", true);
     statusDialog.setSize(500, 400);
