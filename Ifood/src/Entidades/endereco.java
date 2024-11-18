@@ -13,7 +13,7 @@ public class Endereco extends Base {
     private String cep;
     private String tipoEndereco;
     private Restaurante restaurante;
-    private ArrayList<Pedido> pedido;
+    private ArrayList<Pedido> pedido = new ArrayList<>();
 
     public Endereco(int id, int status, LocalDateTime dataCreat, String rua, String bairro, String numero, String cidade,
             String estado, String pontoReferencia, String complemento, String cep) {

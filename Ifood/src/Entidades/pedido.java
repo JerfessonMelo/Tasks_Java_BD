@@ -16,6 +16,8 @@ public class Pedido extends Base {
     private ArrayList<PedidoProduto> pedidoProduto;
     private ArrayList<HistoricoEntregas> historicoEntregas;
     private ArrayList<HistoricoPagamento> historicoPagamentos;
+    private ArrayList<Aconpanhamento> acompanhamentos = new ArrayList<>();
+
     
     public Pedido(int id, int status, LocalDateTime dataCreat, LocalDateTime dataPedido, float valor, float taxaEntrega,
             String observacoes, Float troco) {
@@ -104,5 +106,10 @@ public class Pedido extends Base {
     public void setPedidoProduto(ArrayList<PedidoProduto> pedidoProduto) {
         this.pedidoProduto = pedidoProduto;
     }
-       
+    public ArrayList<Aconpanhamento> getAcompanhamentos() {
+        return acompanhamentos;
+    }
+    public void setAcompanhamentos(ArrayList<Aconpanhamento> acompanhamentos) {
+        this.acompanhamentos = acompanhamentos;
+    }      
 }

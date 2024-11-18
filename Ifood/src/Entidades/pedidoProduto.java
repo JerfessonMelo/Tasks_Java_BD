@@ -5,7 +5,8 @@ public class PedidoProduto extends Base {
 
     private int quantidade;
     private Pedido pedido;
-    private ArrayList<Produto> produto;
+    private double preco;
+    private ArrayList<Produto> produto = new ArrayList<>();
 
     public PedidoProduto(int id, int status, LocalDateTime dataCreat, int quantidade) {
         super(id, status, dataCreat);
@@ -33,6 +34,18 @@ public class PedidoProduto extends Base {
     }
 
     public void setProdutos(ArrayList<Produto> produto) {
+        this.produto = produto;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreço(double preco) {
+        this.preco = preco;
+    }
+
+    public void setProduto(ArrayList<Produto> produto) {
         this.produto = produto;
     }
 

@@ -11,7 +11,7 @@ public class Restaurante extends Base{
     private Timer HoraFuncionamento;
     private Endereco endereco;
     private Categoria categoria;
-    private ArrayList<Produto> produto;
+    private ArrayList<Produto> produto = new ArrayList<>();
 
     public Restaurante(int id, int status, LocalDateTime dataCreat, String nome, String telefone, float valorMinimoEntrega,
             Boolean isRetirada, Timer horaFuncionamento, Endereco endereco, Categoria categoria) {

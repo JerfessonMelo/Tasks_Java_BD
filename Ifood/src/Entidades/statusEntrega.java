@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class StatusEntrega extends Base{
 
     private String nome;
-    private ArrayList<Pedido> pedido;
+    private ArrayList<Pedido> pedido = new ArrayList<>();
 
     public StatusEntrega(int id, int status, LocalDateTime dataCreat, String nome) {
         super(id, status, dataCreat);

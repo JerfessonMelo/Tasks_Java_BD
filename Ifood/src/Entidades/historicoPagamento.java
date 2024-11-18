@@ -6,7 +6,7 @@ public class HistoricoPagamento extends Base{
     private float valor;
     private LocalDateTime dataPagamento;
     private Pedido pedido;
-    private ArrayList<FormaPagamento> formaPagamentos;
+    private ArrayList<FormaPagamento> formaPagamentos = new ArrayList<>();
 
 
     public HistoricoPagamento(int id, int status, LocalDateTime dataCreat, float valor, LocalDateTime dataPagamento) {
