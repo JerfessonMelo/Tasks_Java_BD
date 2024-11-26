@@ -6,9 +6,10 @@ public class Produto extends Base {
     private float preco;
     private Categoria categoria;
     private Restaurante restaurante;
-
-    public Produto(int id, int status, LocalDateTime dataCreat, String nome, float preco) {
-        super(id, status, dataCreat);
+    private PedidoProduto pedidoProduto;
+    
+    public Produto(int id, int status, LocalDateTime dataCreat2, String nome, float preco) {
+        super(id, status, dataCreat2);
         this.nome = nome;
         this.preco = preco;
     }
@@ -36,6 +37,10 @@ public class Produto extends Base {
     public void setRestaurante(Restaurante restaurante) {
         this.restaurante = restaurante;
     }
-  
-    
+    public PedidoProduto getPedidoProduto() {
+        return pedidoProduto;
+    }
+    public void setPedidoProduto(PedidoProduto pedidoProduto) {
+        this.pedidoProduto = pedidoProduto;
+    }  
 }

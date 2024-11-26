@@ -1,31 +1,33 @@
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 public class StatusEntrega extends Base{
 
-    private String nome;
-    private ArrayList<Pedido> pedido = new ArrayList<>();
+    private StatusEntregaEnum statusEntrega;
+    private Pedido pedido;
 
-    public StatusEntrega(int id, int status, LocalDateTime dataCreat, String nome) {
-        super(id, status, dataCreat);
-        this.nome = nome;
+    public StatusEntrega(int id, int status, LocalDateTime dataCriacao, StatusEntregaEnum statusEntrega, Pedido pedido) {
+        super(id, status, dataCriacao);
+        this.statusEntrega = statusEntrega;
+        this.pedido = pedido;
     }
 
-    public String getNome() {
-        return nome;
+    public void definirStatusEntrega(StatusEntregaEnum status) {
+        this.statusEntrega = status;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public ArrayList<Pedido> getPedido() {
+    public Pedido getPedido() {
         return pedido;
     }
 
-    public void setPedido(ArrayList<Pedido> pedido) {
+    public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
-    
 
+    public StatusEntregaEnum getStatusEntrega() {
+        return statusEntrega;
+    }
+
+    public void setStatusEntrega(StatusEntregaEnum statusEntrega) {
+        this.statusEntrega = statusEntrega;
+    }
 }

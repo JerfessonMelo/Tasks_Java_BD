@@ -9,7 +9,6 @@ public class Categoria extends Base {
     private ArrayList<Produto> produto;
     private ArrayList<Restaurante> restaurante = new ArrayList<>();
 
-    
     public Categoria(int id, int status, LocalDateTime dataCreat, String nome, String descricao, String tipoCategoria) {
         super(id, status, dataCreat);
         this.nome = nome;

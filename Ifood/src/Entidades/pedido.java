@@ -13,20 +13,28 @@ public class Pedido extends Base {
     private FormaPagamento formaPagamento;
     private StatusEntrega statusEntrega;
     private Endereco endereco;
-    private ArrayList<PedidoProduto> pedidoProduto;
+    private ArrayList<PedidoProduto> pedidoProduto = new ArrayList<>();
     private ArrayList<HistoricoEntregas> historicoEntregas;
     private ArrayList<HistoricoPagamento> historicoPagamentos;
-    private ArrayList<Aconpanhamento> acompanhamentos = new ArrayList<>();
+    private ArrayList<Acompanhamento> acompanhamentos = new ArrayList<>();
 
     
     public Pedido(int id, int status, LocalDateTime dataCreat, LocalDateTime dataPedido, float valor, float taxaEntrega,
-            String observacoes, Float troco) {
+            String observacoes, Float troco, Restaurante restaurante, FormaPagamento formaPagamento, StatusEntrega statusEntrega, Endereco endereco) {
         super(id, status, dataCreat);
         this.dataPedido = dataPedido;
         this.valor = valor;
         this.taxaEntrega = taxaEntrega;
         this.observacoes = observacoes;
         this.troco = troco;
+        this.restaurante = restaurante;
+        this.formaPagamento = formaPagamento;
+        this.statusEntrega = statusEntrega;
+        this.endereco = endereco;
+    }
+
+    public void definirDataPedidoAutomaticamente() {
+        this.dataPedido = LocalDateTime.now();
     }
     public LocalDateTime getDataPedido() {
         return dataPedido;
@@ -100,16 +108,17 @@ public class Pedido extends Base {
     public void setHistoricoPagamentos(ArrayList<HistoricoPagamento> historicoPagamentos) {
         this.historicoPagamentos = historicoPagamentos;
     }
+    public ArrayList<Acompanhamento> getAcompanhamentos() {
+        return acompanhamentos;
+    }
+    public void setAcompanhamentos(ArrayList<Acompanhamento> acompanhamentos) {
+        this.acompanhamentos = acompanhamentos;
+    }
     public ArrayList<PedidoProduto> getPedidoProduto() {
         return pedidoProduto;
     }
     public void setPedidoProduto(ArrayList<PedidoProduto> pedidoProduto) {
         this.pedidoProduto = pedidoProduto;
     }
-    public ArrayList<Aconpanhamento> getAcompanhamentos() {
-        return acompanhamentos;
-    }
-    public void setAcompanhamentos(ArrayList<Aconpanhamento> acompanhamentos) {
-        this.acompanhamentos = acompanhamentos;
-    }      
+    
 }

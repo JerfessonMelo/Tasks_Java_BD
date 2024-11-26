@@ -116,4 +116,10 @@ public class Endereco extends Base {
         this.pedido = pedido;
     }
 
+    @Override
+    public String toString() {
+        return rua + " " + bairro + " " + numero + " " + cidade + " " + pontoReferencia + " " + cep;
+    }
+    
+
 }

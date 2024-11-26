@@ -2,21 +2,21 @@ import java.time.LocalDateTime;
 
 public class FormaPagamento extends Base{
 
-    private String formaPag;
+    private String formaPagamento;
     private HistoricoPagamento historicoPagamento;
     private Pedido pedido;
 
-    public FormaPagamento(int id, int status, LocalDateTime dataCreat, String formaPag) {
-        super(id, status, dataCreat);
-        this.formaPag = formaPag;
+    public FormaPagamento(int id, int status, LocalDateTime dataCreat2, String formaPagamento) {
+        super(id, status, dataCreat2);
+        this.formaPagamento = formaPagamento;
     }
 
-    public String getFormaPag() {
-        return formaPag;
+    public String getFormaPagamento() {
+        return formaPagamento;
     }
 
-    public void setFormaPag(String formaPag) {
-        this.formaPag = formaPag;
+    public void setFormaPagagamento(String formaPag) {
+        this.formaPagamento = formaPag;
     }
 
     public HistoricoPagamento getHistoricoPagamento() {

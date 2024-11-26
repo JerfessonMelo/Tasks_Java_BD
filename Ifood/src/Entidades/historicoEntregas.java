@@ -6,8 +6,18 @@ public class HistoricoEntregas extends Base{
     private StatusEntrega statusEntrega;
     private Pedido pedido;
 
-    public HistoricoEntregas(int id, int status, LocalDateTime dataCreat, LocalDateTime dataHora) {
-        super(id, status, dataCreat);
+
+
+    public HistoricoEntregas(int id, int status, LocalDateTime dataCreat2, LocalDateTime dataHora, 
+        StatusEntrega statusEntrega, Pedido pedido) {
+        super(id, status, dataCreat2);
+        this.dataHora = dataHora;
+        this.statusEntrega = statusEntrega;
+        this.pedido = pedido;
+    }
+
+    public HistoricoEntregas(int id, int status, LocalDateTime dataCreat2, LocalDateTime dataHora) {
+        super(id, status, dataCreat2);
         this.dataHora = dataHora;
     }
 

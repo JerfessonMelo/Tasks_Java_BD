@@ -1,14 +1,14 @@
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 public class Avaliacao extends Base {
 
     private int nota;
-    private ArrayList<Pedido> pedido = new ArrayList<>();
+    private Pedido pedido;
 
-    public Avaliacao(int id, int status, LocalDateTime dataCreat, int nota) {
-        super(id, status, dataCreat);
+    public Avaliacao(int id, int status, LocalDateTime dataCreat2, int nota, Pedido pedido) {
+        super(id, status, dataCreat2);
         this.nota = nota;
+        this.pedido = pedido;
     }
 
     public int getNota() {
@@ -19,12 +19,12 @@ public class Avaliacao extends Base {
         this.nota = nota;
     }
 
-    public ArrayList<Pedido> getPedido() {
+    public Pedido getPedido() {
         return pedido;
     }
 
-    public void setPedido(ArrayList<Pedido> pedido) {
+    public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
-
+    
 }

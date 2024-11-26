@@ -34,19 +34,15 @@ public class PedidoProduto extends Base {
     }
 
     public void setProdutos(ArrayList<Produto> produto) {
-        this.produto = produto;
+        this.produto = new ArrayList<>(produto);
     }
 
     public double getPreco() {
         return preco;
     }
 
-    public void setPreço(double preco) {
+    public void setPreco(double preco) {
         this.preco = preco;
-    }
-
-    public void setProduto(ArrayList<Produto> produto) {
-        this.produto = produto;
     }
 
 }
