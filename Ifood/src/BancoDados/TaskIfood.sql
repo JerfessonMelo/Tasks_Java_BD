@@ -1,6 +1,6 @@
 CREATE DATABASE ifood;
 USE ifood;
-
+-- drop database ifood;
 CREATE TABLE endereco (
     id INT AUTO_INCREMENT PRIMARY KEY,
     rua VARCHAR(60),
@@ -323,11 +323,3 @@ INSERT INTO formaPagamento (formaPagamento) VALUES
 ('Pix'),
 ('Dinheiro'),
 ('Transferência Bancária');
-
-INSERT INTO pedido (dataPedido, id_restaurante, valor, taxaEntrega, id_promocao, id_forma_pagamento, observacoes, troco, id_status_entrega, id_endereco)
-VALUES
-('2024-11-24', 1, 55.00, 5.00, 1, 1, 'Sem cebola no hambúrguer', 0.00, 1, 1),
-('2024-11-23', 2, 25.50, 5.00, 2, 2, 'Adicionar gelo na bebida', 10.00, 2, 2),
-('2024-11-22', 3, 82.00, 8.00, NULL, 3, 'Entregar no portão', 5.00, 3, 3),
-('2024-11-21', 4, 45.00, 5.00, 4, 4, 'Cupcake com cobertura extra', 0.00, 1, 4),
-('2024-11-20', 5, 60.00, 6.00, 5, 5, 'Não incluir salada', 0.00, 1, 5);

@@ -34,5 +34,9 @@ public class FormaPagamento extends Base{
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
-      
+
+    @Override
+    public String toString() {
+        return this.formaPagamento;
+    }  
 }

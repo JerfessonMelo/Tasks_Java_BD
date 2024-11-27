@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import java.sql.SQLException;
-
 import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ public class FrontEnd extends Application {
 
     private Scene sceneRestaurantes, sceneProdutos, sceneCarrinho, sceneFinalizacao, scenePedidos;
     private Restaurante restauranteSelecionado;
-    private Pedido pedido = new Pedido(0, 0, null, null, 0, 0, STYLESHEET_CASPIAN, null, restauranteSelecionado, null, null, null);
+    private Pedido pedido = new Pedido(0, 0, null, null, 0, 0, null, null, restauranteSelecionado, null, null, null);
     private ListView<String> pedidosListView = new ListView<>();
     private PedidoDAO pedidoDAO;
     private ProdutoDAO produtoDAO;
@@ -28,6 +27,7 @@ public class FrontEnd extends Application {
     private RestauranteDAO restauranteDAO;
     private Connection connection;
     private Label lblStatusPedido;
+    private ProgressBar progressBar;
 
     public static void main(String[] args) {
         launch(args);
@@ -69,243 +69,255 @@ public class FrontEnd extends Application {
     }
 
     private void configurarTelaRestaurantes(Stage stage) {
-        Label titulo = criarTitulo("Restaurantes Disponíveis");
-        VBox vboxRestaurantes = new VBox(10);
-        vboxRestaurantes.setPadding(new Insets(20));
-        vboxRestaurantes.setStyle("-fx-background-color: #f0f8ff;");
+    Label titulo = criarTitulo("Restaurantes Disponíveis");
+    VBox vboxRestaurantes = new VBox(10);
+    vboxRestaurantes.setPadding(new Insets(20));
+    vboxRestaurantes.setStyle("-fx-background-color: #f0f8ff;");
 
-            ArrayList<Restaurante> restaurantes = restauranteDAO.listarTodos();
+    ListView<Restaurante> restauranteListView = new ListView<>();
+    ArrayList<Restaurante> restaurantes = restauranteDAO.listarTodos();
 
-            ListView<Button> restaurantListView = new ListView<>();
-            for (Restaurante r : restaurantes) {
-                Button btnRestaurante = new Button(r.getNome());
-                btnRestaurante.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
-                btnRestaurante.setOnAction(_ -> {
-                    restauranteSelecionado = r;
-                    this.pedido = new Pedido(0, 0, null, null, 0, 0, STYLESHEET_CASPIAN, null, restauranteSelecionado, null, null, null);
-                    pedido.setRestaurante(restauranteSelecionado);
-                    configurarTelaProdutos(stage);
-                    stage.setScene(sceneProdutos);
-                });
-                restaurantListView.getItems().add(btnRestaurante);
+    ObservableList<Restaurante> restauranteObservableList = FXCollections.observableArrayList(restaurantes);
+    restauranteListView.setItems(restauranteObservableList);
+
+    restauranteListView.setCellFactory(_ -> new ListCell<>() {
+        @Override
+        protected void updateItem(Restaurante restaurante, boolean empty) {
+            super.updateItem(restaurante, empty);
+            if (empty || restaurante == null || restaurante.getNome() == null) {
+                setText(null);
+            } else {
+                setText(restaurante.getNome());
             }
+        }
+    });
 
-            vboxRestaurantes.getChildren().addAll(titulo, restaurantListView);
-            sceneRestaurantes = new Scene(vboxRestaurantes, 500, 500);
+    restauranteListView.setOnMouseClicked(event -> {
+        if (event.getClickCount() == 1) {
+            Restaurante selecionado = restauranteListView.getSelectionModel().getSelectedItem();
+            if (selecionado != null) {
+                restauranteSelecionado = selecionado;
+                this.pedido = new Pedido(0, 0, null, null, 0, 0, null, null, restauranteSelecionado, null, null, null);
+                pedido.setRestaurante(restauranteSelecionado);
+                configurarTelaProdutos(stage);
+                stage.setScene(sceneProdutos);
+            }
+        }
+    });
 
+    vboxRestaurantes.getChildren().addAll(titulo, restauranteListView);
 
-        Button btnIrPedidos = new Button("Pedidos");
-        btnIrPedidos.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
-        btnIrPedidos.setOnAction(_ -> stage.setScene(scenePedidos));
+    Button btnIrPedidos = new Button("Pedidos");
+    btnIrPedidos.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
+    btnIrPedidos.setOnAction(_ -> stage.setScene(scenePedidos));
 
-        vboxRestaurantes.getChildren().add(btnIrPedidos);
-    }
+    vboxRestaurantes.getChildren().add(btnIrPedidos);
+    sceneRestaurantes = new Scene(vboxRestaurantes, 500, 500);
+}
+
 
     private void configurarTelaProdutos(Stage stage) {
-        if (restauranteSelecionado == null) {
-            System.err.println("Erro: Nenhum restaurante foi selecionado.");
-            return;
-        }
-        Label titulo = criarTitulo("Produtos do Restaurante");
-        VBox vboxProdutos = new VBox(10);
-        vboxProdutos.setPadding(new Insets(20));
-        vboxProdutos.setStyle("-fx-background-color: #f0f8ff;");
-
-            ArrayList<Produto> produtos = produtoDAO.listarPorRestaurante(restauranteSelecionado.getId());
-
-            ListView<Button> produtoListView = new ListView<>();
-            for (Produto p : produtos) {
-                Button btnProduto = new Button(p.getNome() + " - R$ " + String.format("%.2f", p.getPreco()));
-                btnProduto.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
-                btnProduto.setOnAction(_ -> {
-                    PedidoProduto pedidoProduto = new PedidoProduto(0, 1, LocalDateTime.now(), 1);
-                    pedidoProduto.getProduto().add(p);
-                    pedidoProduto.setPreco(p.getPreco());
-                    pedido.getPedidoProduto().add(pedidoProduto);
-                    pedido.setValor(pedido.getValor() + p.getPreco());
-
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Produto adicionado ao pedido");
-                    alert.setContentText("Você selecionou " + p.getNome() + "\nPreço R$ " + String.format("%.2f", p.getPreco()));
-                    alert.showAndWait();
-                });
-                produtoListView.getItems().add(btnProduto);
-            }
-
-            vboxProdutos.getChildren().addAll(titulo, produtoListView);
-            sceneProdutos = new Scene(vboxProdutos, 500, 500);
-
-        Button btnCarrinho = new Button("Ir para o Carrinho");
-        btnCarrinho.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
-        btnCarrinho.setOnAction(_ -> {
-            configurarTelaCarrinho(stage);
-            stage.setScene(sceneCarrinho);
-        });
-
-        vboxProdutos.getChildren().addAll(btnCarrinho);
+    if (restauranteSelecionado == null) {
+        System.err.println("Erro: Nenhum restaurante foi selecionado.");
+        return;
     }
 
-    private void configurarTelaCarrinho(Stage stage) {
-        if (pedido == null) {
-            System.err.println("Erro: Pedido não foi inicializado.");
-            return;
-        }
+    Label titulo = criarTitulo("Produtos do Restaurante: " + restauranteSelecionado.getNome());
+    VBox vboxProdutos = new VBox(10);
+    vboxProdutos.setPadding(new Insets(20));
+    vboxProdutos.setStyle("-fx-background-color: #f0f8ff;");
 
-        Label titulo = criarTitulo("Carrinho");
-        VBox vboxCarrinho = new VBox(10);
-        vboxCarrinho.setPadding(new Insets(20));
-        vboxCarrinho.setStyle("-fx-background-color: #f0f8ff;");
+    ListView<Produto> produtoListView = new ListView<>();
+    ArrayList<Produto> produtos = produtoDAO.listarPorRestaurante(restauranteSelecionado.getId());
 
-        if (pedido.getPedidoProduto() != null) {
-            for (PedidoProduto pp : pedido.getPedidoProduto()) {
-                Label lblProduto = new Label(pp.getProduto().get(0).getNome() + " x" + pp.getQuantidade() + 
-                                             " - R$" + pp.getPreco());
-                lblProduto.setStyle("-fx-text-fill: blue;");
-                vboxCarrinho.getChildren().add(lblProduto);
+    ObservableList<Produto> produtoObservableList = FXCollections.observableArrayList(produtos);
+    produtoListView.setItems(produtoObservableList);
+
+    produtoListView.setCellFactory(_ -> new ListCell<>() {
+        @Override
+        protected void updateItem(Produto produto, boolean empty) {
+            super.updateItem(produto, empty);
+            if (empty || produto == null || produto.getNome() == null) {
+                setText(null);
+            } else {
+                setText(produto.getNome() + " - R$ " + String.format("%.2f", produto.getPreco()));
             }
         }
+    });
 
-        Label lblTotal = new Label("Total: R$ " + pedido.getValor());
-        lblTotal.setStyle("-fx-font-size: 18px; -fx-text-fill: blue;");
+    produtoListView.setOnMouseClicked(event -> {
+        if (event.getClickCount() == 1) {
+            Produto selecionado = produtoListView.getSelectionModel().getSelectedItem();
+            if (selecionado != null) {
+                PedidoProduto pedidoProduto = new PedidoProduto(0, 1, LocalDateTime.now(), 1);
+                pedidoProduto.getProduto().add(selecionado);
+                pedidoProduto.setPreco(selecionado.getPreco());
+                pedido.getPedidoProduto().add(pedidoProduto);
+                pedido.setValor(pedido.getValor() + selecionado.getPreco());
 
-        Label lblEnderecoSelecionado = new Label("Endereço: " + (pedido.getEndereco() != null ? pedido.getEndereco() : "Nenhum endereço selecionado"));
-        lblEnderecoSelecionado.setStyle("-fx-text-fill: blue;");
-
-        Label lblFormaPagamentoSelecionada = new Label("Pagamento: " + (pedido.getFormaPagamento() != null ? pedido.getFormaPagamento().getFormaPagamento() : "Nenhuma forma pagamento selecionada"));
-        lblFormaPagamentoSelecionada.setStyle("-fx-text-fill: blue;");
-
-        ComboBox<FormaPagamento> comboFormaPagamento = new ComboBox<>();
-        comboFormaPagamento.setPromptText("Escolha uma forma de pagamento");
-
-        ArrayList<FormaPagamento> formasPagamento = formaPagamentoDAO.listarTodos();
-        comboFormaPagamento.getItems().addAll(formasPagamento);
-
-        comboFormaPagamento.setOnAction(_ -> {
-            FormaPagamento formaSelecionada = comboFormaPagamento.getValue();
-                if (formaSelecionada != null) {
-                    pedido.setFormaPagamento(formaSelecionada);
-                    lblFormaPagamentoSelecionada.setText("Forma de Pagamento: " + formaSelecionada.getFormaPagamento());
-                } else {
-                     System.err.println("Forma de pagamento não selecionada.");
-                }
-            });
-
-        Button btnFinalizar = new Button("Finalizar Pedido");
-        btnFinalizar.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
-        btnFinalizar.setOnAction(_ -> {
-            if (pedido != null) {
-                if (pedido.getEndereco() == null) {
-                    Alert alert = new Alert(Alert.AlertType.WARNING, "Por favor, selecione um endereço.");
-                    alert.showAndWait();
-                    return;
-                }
-
-                if (pedido.getStatusEntrega() == null) {
-                pedido.setStatusEntrega(new StatusEntrega(0, 0, LocalDateTime.now(), StatusEntregaEnum.EM_PRODUCAO, pedido));
-                }
-                
-                iniciarThreadStatusPedido(pedido);
-                pedido.definirDataPedidoAutomaticamente();
-                pedidoDAO.salvar(pedido);
-
-                configurarTelaFinalizacao(stage);
-                stage.setScene(sceneFinalizacao);
-                pedido = null;
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Nenhum pedido foi realizado.");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Produto adicionado ao pedido");
+                alert.setContentText("Você selecionou " + selecionado.getNome() + "\nPreço R$ " + String.format("%.2f", selecionado.getPreco()));
                 alert.showAndWait();
             }
-        });
-
-        Button btnSelecionarEndereco = new Button("Cadastra Endereço");
-        btnSelecionarEndereco.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
-        btnSelecionarEndereco.setOnAction(_ -> mostrarEnderecos(stage));
-
-        Button btnSelecionarPagamento = new Button("Selecionar Forma de Pagamento");
-        btnSelecionarPagamento.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
-        btnSelecionarPagamento.setOnAction(_ -> mostrarFormasPagamento(stage));
-
-        vboxCarrinho.getChildren().addAll(lblEnderecoSelecionado, lblFormaPagamentoSelecionada, titulo, lblTotal, btnSelecionarPagamento, btnSelecionarEndereco, btnFinalizar);
-        sceneCarrinho = new Scene(vboxCarrinho, 500, 500);
-    }
-
-    private void mostrarFormasPagamento(Stage stage) {
-        VBox vboxFormasPagamento = new VBox(10);
-        vboxFormasPagamento.setPadding(new Insets(20));
-        vboxFormasPagamento.setStyle("-fx-background-color: #f0f8ff;");
-
-        Label titulo = criarTitulo("Selecione uma Forma de Pagamento");
-        vboxFormasPagamento.getChildren().add(titulo);
-
-        ArrayList<FormaPagamento> formasPagamento;
-        formasPagamento = formaPagamentoDAO.listarTodos();
-              
-
-        for (FormaPagamento forma : formasPagamento) {
-            Button btnFormaPagamento = new Button(forma.getFormaPagamento());
-            btnFormaPagamento.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
-            btnFormaPagamento.setOnAction(_ -> {
-                pedido.setFormaPagamento(forma);
-                configurarTelaCarrinho(stage);
-                stage.setScene(sceneCarrinho);
-            });
-            vboxFormasPagamento.getChildren().add(btnFormaPagamento);
         }
+    });
 
-        Button btnVoltar = new Button("Voltar");
-        btnVoltar.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
-        btnVoltar.setOnAction(_ -> stage.setScene(sceneCarrinho));
-        vboxFormasPagamento.getChildren().add(btnVoltar);
+    vboxProdutos.getChildren().addAll(titulo, produtoListView);
 
-        Scene sceneFormasPagamento = new Scene(vboxFormasPagamento, 500, 500);
-        stage.setScene(sceneFormasPagamento);
+    Button btnCarrinho = new Button("Ir para o Carrinho");
+    btnCarrinho.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
+    btnCarrinho.setOnAction(_ -> {
+        configurarTelaCarrinho(stage);
+        stage.setScene(sceneCarrinho);
+    });
+
+    vboxProdutos.getChildren().add(btnCarrinho);
+    sceneProdutos = new Scene(vboxProdutos, 500, 500);
+}
+
+    private void configurarTelaCarrinho(Stage stage) {
+    if (pedido == null) {
+        System.err.println("Erro: Pedido não foi inicializado.");
+        return;
     }
+
+    Label titulo = criarTitulo("Carrinho");
+    VBox vboxCarrinho = new VBox(10);
+    vboxCarrinho.setPadding(new Insets(20));
+    vboxCarrinho.setStyle("-fx-background-color: #f0f8ff;");
+
+    if (pedido.getPedidoProduto() != null) {
+        for (PedidoProduto pp : pedido.getPedidoProduto()) {
+            Label lblProduto = new Label(pp.getProduto().get(0).getNome() + " x" + pp.getQuantidade() + 
+                                         " - R$" + pp.getPreco());
+            lblProduto.setStyle("-fx-text-fill: blue;");
+            vboxCarrinho.getChildren().add(lblProduto);
+        }
+    }
+
+    Label lblTotal = new Label("Total: R$ " + pedido.getValor());
+    lblTotal.setStyle("-fx-font-size: 18px; -fx-text-fill: blue;");
+
+    Label lblEnderecoSelecionado = new Label("Endereço: " + 
+        (pedido.getEndereco() != null ? pedido.getEndereco() : "Nenhum endereço selecionado"));
+    lblEnderecoSelecionado.setStyle("-fx-text-fill: blue;");
+
+    Label lblFormaPagamentoSelecionada = new Label("Pagamento: " + 
+        (pedido.getFormaPagamento() != null ? pedido.getFormaPagamento().getFormaPagamento() : "Nenhuma forma pagamento selecionada"));
+    lblFormaPagamentoSelecionada.setStyle("-fx-text-fill: blue;");
+
+    ComboBox<FormaPagamento> comboFormaPagamento = new ComboBox<>();
+    comboFormaPagamento.setPromptText("Escolha uma forma de pagamento");
+
+    ArrayList<FormaPagamento> formasPagamento = formaPagamentoDAO.listarTodos();
+    comboFormaPagamento.getItems().addAll(formasPagamento);
+
+    comboFormaPagamento.setOnAction(_ -> {
+        FormaPagamento formaSelecionada = comboFormaPagamento.getValue();
+        if (formaSelecionada != null) {
+            pedido.setFormaPagamento(formaSelecionada);
+            lblFormaPagamentoSelecionada.setText("Forma de Pagamento: " + formaSelecionada.getFormaPagamento());
+        } else {
+            System.err.println("Forma de pagamento não selecionada.");
+        }
+    });
+
+    vboxCarrinho.getChildren().addAll(lblEnderecoSelecionado, lblFormaPagamentoSelecionada, titulo, lblTotal, comboFormaPagamento);
+
+    Button btnFinalizar = new Button("Finalizar Pedido");
+    btnFinalizar.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
+    btnFinalizar.setOnAction(_ -> {
+        if (pedido != null) {
+            if (pedido.getEndereco() == null) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Por favor, selecione um endereço.");
+                alert.showAndWait();
+                return;
+            }
+
+            if (pedido.getStatusEntrega() == null) {
+                pedido.setStatusEntrega(new StatusEntrega(0, 0, LocalDateTime.now(), StatusEntregaEnum.EM_PRODUCAO, pedido));
+            }
+
+            iniciarThreadStatusPedido(pedido);
+            pedido.definirDataPedidoAutomaticamente();
+            pedidoDAO.salvar(pedido);
+
+            configurarTelaFinalizacao(stage);
+            stage.setScene(sceneFinalizacao);
+            pedido = null;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Nenhum pedido foi realizado.");
+            alert.showAndWait();
+        }
+    });
+
+    Button btnSelecionarEndereco = new Button("Cadastra Endereço");
+    btnSelecionarEndereco.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
+    btnSelecionarEndereco.setOnAction(_ -> mostrarEnderecos(stage));
+
+    vboxCarrinho.getChildren().addAll(btnSelecionarEndereco, btnFinalizar);
+    sceneCarrinho = new Scene(vboxCarrinho, 500, 500);
+    stage.setScene(sceneCarrinho);
+}
+
 
     private void mostrarEnderecos(Stage stage) {
-        VBox vboxEnderecos = new VBox(10);
-        vboxEnderecos.setPadding(new Insets(20));
-        vboxEnderecos.setStyle("-fx-background-color: #f0f8ff;");
+    VBox vboxEnderecos = new VBox(10);
+    vboxEnderecos.setPadding(new Insets(20));
+    vboxEnderecos.setStyle("-fx-background-color: #f0f8ff;");
 
-        Label titulo = criarTitulo("Selecione um Endereço");
-        vboxEnderecos.getChildren().add(titulo);
+    Label titulo = criarTitulo("Selecione ou Cadastre um Endereço");
+    vboxEnderecos.getChildren().add(titulo);
 
-        TextField cepField = new TextField();
-        cepField.setPromptText("Digite o CEP");
-        vboxEnderecos.getChildren().add(cepField);
+    ListView<String> enderecoListView = new ListView<>();
+    ArrayList<Endereco> enderecos = enderecoDAO.listarTodos();
+    ObservableList<String> enderecoObservableList = FXCollections.observableArrayList();
 
-        Button btnBuscar = new Button("Buscar Endereço");
-        btnBuscar.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
-        btnBuscar.setOnAction(_ -> {
-            String cep = cepField.getText();
-            buscarEnderecoPorCep(cep, vboxEnderecos, stage);
-        });
-        vboxEnderecos.getChildren().add(btnBuscar);
-
-        ArrayList<Endereco> enderecos;
-        enderecos = enderecoDAO.listarTodos();
-
-
-        for (Endereco endereco : enderecos) {
-            Button btnEndereco = new Button(endereco.getRua() + ", " + endereco.getNumero() + " - " + endereco.getCidade());
-            btnEndereco.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
-            btnEndereco.setOnAction(_ -> {
-                pedido.setEndereco(endereco);
-                configurarTelaCarrinho(stage);
-                stage.setScene(sceneCarrinho); 
-            });
-
-            vboxEnderecos.getChildren().add(btnEndereco);
-        }
-
-        Button btnVoltar = new Button("Voltar");
-        btnVoltar.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
-        btnVoltar.setOnAction(_ -> stage.setScene(sceneCarrinho));
-        vboxEnderecos.getChildren().add(btnVoltar);;
-
-        Scene sceneEnderecos = new Scene(vboxEnderecos, 500, 500);
-        stage.setScene(sceneEnderecos);
-
+    for (Endereco endereco : enderecos) {
+        enderecoObservableList.add(
+            endereco.getRua() + ", " + endereco.getNumero() + " - " + endereco.getCidade() + " (" + endereco.getCep() + ")"
+        );
     }
+
+    enderecoListView.setItems(enderecoObservableList);
+    enderecoListView.setOnMouseClicked(event -> {
+        if (event.getClickCount() == 1) {
+            int selectedIndex = enderecoListView.getSelectionModel().getSelectedIndex();
+            if (selectedIndex >= 0) {
+                Endereco enderecoSelecionado = enderecos.get(selectedIndex);
+                pedido.setEndereco(enderecoSelecionado);
+
+                configurarTelaCarrinho(stage);
+                stage.setScene(sceneCarrinho);
+            }
+        }
+    });
+
+    vboxEnderecos.getChildren().add(enderecoListView);
+
+    TextField cepField = new TextField();
+    cepField.setPromptText("Digite o CEP");
+    vboxEnderecos.getChildren().add(cepField);
+
+    Button btnBuscar = new Button("Buscar Endereço");
+    btnBuscar.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
+    btnBuscar.setOnAction(_ -> {
+        String cep = cepField.getText();
+        buscarEnderecoPorCep(cep, vboxEnderecos, stage);
+    });
+
+    vboxEnderecos.getChildren().add(btnBuscar);
+
+    Button btnVoltar = new Button("Voltar");
+    btnVoltar.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
+    btnVoltar.setOnAction(_ -> stage.setScene(sceneCarrinho));
+    vboxEnderecos.getChildren().add(btnVoltar);
+
+    Scene sceneEnderecos = new Scene(vboxEnderecos, 500, 500);
+    stage.setScene(sceneEnderecos);
+}
+
 
     private void buscarEnderecoPorCep(String cep, VBox vboxEnderecos, Stage stage) {
     new Thread(() -> {
@@ -342,16 +354,16 @@ private void mostrarFormularioEndereco(Endereco endereco, VBox vboxEnderecos, St
     vboxEnderecos.getChildren().add(titulo);
 
     TextField txtRua = new TextField(endereco.getRua().isEmpty() ? "" : endereco.getRua());
-    txtRua.setPromptText("Rua (preencha se estiver vazio)");
+    txtRua.setPromptText("Rua");
 
     TextField txtBairro = new TextField(endereco.getBairro().isEmpty() ? "" : endereco.getBairro());
-    txtBairro.setPromptText("Bairro (preencha se estiver vazio)");
+    txtBairro.setPromptText("Bairro");
 
     TextField txtCidade = new TextField(endereco.getCidade().isEmpty() ? "" : endereco.getCidade());
-    txtCidade.setPromptText("Cidade (preencha se estiver vazio)");
+    txtCidade.setPromptText("Cidade");
 
     TextField txtEstado = new TextField(endereco.getEstado().isEmpty() ? "" : endereco.getEstado());
-    txtEstado.setPromptText("Estado (preencha se estiver vazio)");
+    txtEstado.setPromptText("Estado");
 
     TextField txtNumero = new TextField();
     txtNumero.setPromptText("Número");
@@ -419,6 +431,9 @@ private void mostrarFormularioEndereco(Endereco endereco, VBox vboxEnderecos, St
         lblStatusPedido = new Label("Status do pedido: Aguardando confirmação...");
         lblStatusPedido.setStyle("-fx-font-size: 16px; -fx-text-fill: blue;");
 
+        progressBar = new ProgressBar(0);
+        progressBar.setPrefWidth(400);
+
         Button btnIrMeusPedidos = new Button("Pedidos");
         btnIrMeusPedidos.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
         btnIrMeusPedidos.setOnAction(_ -> stage.setScene(scenePedidos));
@@ -427,8 +442,8 @@ private void mostrarFormularioEndereco(Endereco endereco, VBox vboxEnderecos, St
         btnVoltar.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
         btnVoltar.setOnAction(_ -> stage.setScene(sceneRestaurantes));
 
-        vboxFinalizacao.getChildren().addAll(titulo,lblStatusPedido, btnIrMeusPedidos, btnVoltar);
-        sceneFinalizacao = new Scene(vboxFinalizacao, 500, 500);
+        vboxFinalizacao.getChildren().addAll(titulo,lblStatusPedido,progressBar, btnIrMeusPedidos, btnVoltar);
+        sceneFinalizacao = new Scene(vboxFinalizacao, 400, 220);
     }
 
     private void configurarTelaPedidos(Stage stage) {
@@ -463,23 +478,33 @@ private void mostrarFormularioEndereco(Endereco endereco, VBox vboxEnderecos, St
         });
     }
 
-    private void iniciarThreadStatusPedido(Pedido pedido) {
-        new Thread(() -> {
-            try {
-                Thread.sleep(5000);
-                atualizarStatusPedido(pedido, new StatusEntrega(2, 1, LocalDateTime.now(), StatusEntregaEnum.EM_PRODUCAO, pedido));
-
-                Thread.sleep(4000);
-                atualizarStatusPedido(pedido, new StatusEntrega(3, 1 , LocalDateTime.now(), StatusEntregaEnum.EM_ROTA_ENTREGA, pedido));
-
-                Thread.sleep(3000);
-                atualizarStatusPedido(pedido, new StatusEntrega(4, 1, LocalDateTime.now(), StatusEntregaEnum.ENTREGUE, pedido));
-
-            } catch (InterruptedException e) {
-            e.printStackTrace();
-            }
-        }).start();
+    private void atualizarProgresso(double progresso) {
+    Platform.runLater(() -> progressBar.setProgress(progresso));
     }
+
+    private void iniciarThreadStatusPedido(Pedido pedido) {
+    new Thread(() -> {
+        try {
+            double progressStep = 1.0 / 3;
+            int delay = 5000;
+
+            Thread.sleep(delay);
+            atualizarStatusPedido(pedido, new StatusEntrega(2, 1, LocalDateTime.now(), StatusEntregaEnum.EM_PRODUCAO, pedido));
+            atualizarProgresso(progressStep);
+
+            Thread.sleep(delay - 1000);
+            atualizarStatusPedido(pedido, new StatusEntrega(3, 1, LocalDateTime.now(), StatusEntregaEnum.EM_ROTA_ENTREGA, pedido));
+            atualizarProgresso(2 * progressStep);
+
+            Thread.sleep(delay - 2000);
+            atualizarStatusPedido(pedido, new StatusEntrega(4, 1, LocalDateTime.now(), StatusEntregaEnum.ENTREGUE, pedido));
+            atualizarProgresso(1.0);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }).start();
+}
 
 
     private Label criarTitulo(String texto) {
