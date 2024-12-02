@@ -438,7 +438,10 @@ private void mostrarFormularioEndereco(Endereco endereco, VBox vboxEnderecos, St
 
         Button btnIrMeusPedidos = new Button("Pedidos");
         btnIrMeusPedidos.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
-        btnIrMeusPedidos.setOnAction(_ -> stage.setScene(scenePedidos));
+        btnIrMeusPedidos.setOnAction(_ ->{
+            configurarTelaPedidos(stage); 
+            stage.setScene(scenePedidos);
+        });
 
         Button btnVoltar = new Button("Voltar para Restaurantes");
         btnVoltar.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
@@ -454,12 +457,11 @@ private void mostrarFormularioEndereco(Endereco endereco, VBox vboxEnderecos, St
         vboxPedidos.setPadding(new Insets(20));
         vboxPedidos.setStyle("-fx-background-color: #f0f8ff;");
 
-        ObservableList<String> pedidos = FXCollections.observableArrayList();
-
-        for (Pedido pedido : pedidoDAO.listarTodos()) {
-            pedidos.add("Pedido #" + pedido.getId() + ": R$ " + String.format("%.2f", pedido.getValor()) + 
-                " - " + pedido.getObservacoes());
-        }
+            ObservableList<String> pedidos = FXCollections.observableArrayList();
+                for (Pedido pedido : pedidoDAO.listarTodos()) {
+                    pedidos.add("Pedido #" + pedido.getId() + ": R$ " + 
+                    String.format("%.2f", pedido.getValor()));
+                }
 
         pedidosListView.setItems(pedidos);
 
