@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: red;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.RestaurantesController">
+   <children>
+      <Label layoutX="360.0" layoutY="22.0" text="Restaurantes" textFill="WHITE">
+         <font>
+            <Font name="Verdana Bold" size="14.0" />
+         </font>
+      </Label>
+      <ListView fx:id="ListViewRestaurantes" layoutX="260.0" layoutY="50.0" prefHeight="300.0" prefWidth="300.0" />
+      <Button layoutX="280.0" layoutY="361.0" mnemonicParsing="false" onAction="#BtnActionPedidos" prefHeight="25.0" prefWidth="90.0" text="Pedidos" />
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="33.0" layoutY="100.0">
+         <image>
+            <Image url="@ifood.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="450.0" layoutY="360.0" mnemonicParsing="false" onAction="#BtnActionCarrinho" prefHeight="25.0" prefWidth="90.0" text="Carrinho" />
+   </children>
+</AnchorPane>
