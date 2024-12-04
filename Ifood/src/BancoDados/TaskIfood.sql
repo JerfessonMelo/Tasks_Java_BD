@@ -1,6 +1,7 @@
 CREATE DATABASE ifood;
 USE ifood;
 -- drop database ifood;
+
 CREATE TABLE endereco (
     id INT AUTO_INCREMENT PRIMARY KEY,
     rua VARCHAR(60),
@@ -323,3 +324,134 @@ INSERT INTO formaPagamento (formaPagamento) VALUES
 ('Pix'),
 ('Dinheiro'),
 ('Transferência Bancária');
+
+INSERT INTO pedido (dataPedido, id_restaurante, valor, taxaEntrega, id_promocao, id_forma_pagamento, observacoes, troco, id_status_entrega, id_endereco) VALUES
+('2024-12-01', 1, 55.00, 5.00, 1, 1, 'Sem pimenta', 10.00, 1, 1),
+('2024-12-02', 2, 20.00, 5.00, 2, 2, 'Entregar rápido', 0.00, 2, 2),
+('2024-12-03', 3, 40.00, 10.00, NULL, 3, 'Sem cebola', 0.00, 3, 3);
+
+INSERT INTO pedidoProduto (id_pedido, id_produto, quantidade) VALUES
+(1, 1, 2),
+(1, 2, 1),
+(2, 3, 1),
+(3, 4, 2),
+(3, 5, 1);
+
+INSERT INTO pedidoProdutoAcompanhamento (id_pedido_produto, id_acompanhamento) VALUES
+(1, 1),
+(1, 2),
+(2, 3),
+(3, 2),
+(4, 1);
+
+
+SELECT 
+    p.nome AS produto, 
+    SUM(pp.quantidade) AS total_vendido
+FROM 
+    pedidoProduto pp
+INNER JOIN 
+    produto p ON pp.id_produto = p.id
+GROUP BY 
+    p.nome
+ORDER BY 
+    total_vendido DESC
+LIMIT 1;
+
+
+SELECT 
+    p.nome AS produto, 
+    SUM(pp.quantidade) AS total_vendido
+FROM 
+    pedidoProduto pp
+INNER JOIN 
+    produto p ON pp.id_produto = p.id
+GROUP BY 
+    p.nome
+ORDER BY 
+    total_vendido ASC
+LIMIT 1;
+
+
+SELECT 
+    MONTH(ped.dataPedido) AS mes, 
+    COUNT(ped.id) AS total_pedidos
+FROM 
+    pedido ped
+GROUP BY 
+    mes
+ORDER BY 
+    total_pedidos DESC
+LIMIT 1;
+
+
+SELECT 
+    fp.formaPagamento, 
+    COUNT(p.id_forma_pagamento) AS total_usos
+FROM 
+    pedido p
+INNER JOIN 
+    formaPagamento fp ON p.id_forma_pagamento = fp.id
+GROUP BY 
+    fp.formaPagamento
+ORDER BY 
+    total_usos DESC
+LIMIT 1;
+
+
+SELECT 
+    e.rua, 
+    e.bairro, 
+    COUNT(p.id_endereco) AS total_entregas
+FROM 
+    pedido p
+INNER JOIN 
+    endereco e ON p.id_endereco = e.id
+GROUP BY 
+    e.rua, e.bairro
+ORDER BY 
+    total_entregas DESC
+LIMIT 1;
+
+
+SELECT 
+    pp.id_pedido, 
+    COUNT(pp.id_produto) AS total_produtos
+FROM 
+    pedidoProduto pp
+GROUP BY 
+    pp.id_pedido
+ORDER BY 
+    total_produtos DESC
+LIMIT 1;
+
+
+SELECT 
+    fp.formaPagamento, 
+    SUM(p.valor) AS total_vendas
+FROM 
+    pedido p
+INNER JOIN 
+    formaPagamento fp ON p.id_forma_pagamento = fp.id
+WHERE 
+    MONTH(p.dataPedido) = MONTH(CURRENT_DATE)
+    AND YEAR(p.dataPedido) = YEAR(CURRENT_DATE)
+GROUP BY 
+    fp.formaPagamento;
+
+
+SELECT 
+    fp.formaPagamento, 
+    SUM(p.valor) AS total_vendas
+FROM 
+    pedido p
+INNER JOIN 
+    formaPagamento fp ON p.id_forma_pagamento = fp.id
+WHERE 
+    MONTH(p.dataPedido) = MONTH(CURRENT_DATE) - 1
+    AND YEAR(p.dataPedido) = YEAR(CURRENT_DATE)
+GROUP BY 
+    fp.formaPagamento;
+
+
+
